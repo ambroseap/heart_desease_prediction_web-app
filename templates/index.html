@@ -1,0 +1,324 @@
+<!--GUI for Breast Cancer Detection Application using SVM-->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <title>heart disease Detection</title>
+  <style>
+    /*just bg and body style*/
+    body {
+      margin: 40px;
+
+      background-color: #800000;
+      }
+
+
+
+    .container {
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .btn-container {
+      background: #F5F5F5;
+      box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+      border-radius: 70px;
+      padding: 80px;
+    }
+
+    .head {
+      font-weight: bolder;
+    }
+
+    /*prediction button*/
+
+    .btn-primary {
+      border-color: #ff33f !important;
+      color: #cccccc;
+      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+      background-color: #800010 !important;
+      border-color: #FFBF00 !important;
+      padding: 60px;
+    }
+
+    label {
+      width: 70%;
+    }
+
+    #predict {
+      display: none;
+    }
+
+    .form-group {
+      padding: 15px;
+    }
+  </style>
+  <!--Font Awesome-->
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="head">heart disease Detection</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="btn-container">
+
+
+          <body>
+
+            <certer>
+
+            <h4>Enter the value of heart features </h4>
+
+          </certer>
+
+
+          </body>
+
+          <!-- Main Input For Receiving Query to our ML -->
+          <form action="{{ url_for('predict')}}" method="post" class="form-inline">
+
+
+
+
+<br>
+<br>
+<br>
+<br>
+
+                  <div class="form-group">
+                    <label for="age">age </label>
+                    <input type="text" class="form-control" name="age" required="required">
+                  </div>
+                  <div class="form-group">
+                    <label for="trestbps">trestbps</label>
+                    <input type="text" class="form-control" name="trestbps" required="required">
+                  </div>
+
+
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <div class="form-group">
+                    <label for="chol">chol</label>
+                    <input type="text" class="form-control" name="chol" required="required" />
+                  </div>
+
+
+                  <div class="form-group">
+                    <label for="thalach">thalach</label>
+                    <input type="text" class="form-control" name="thalach" required="required" />
+                  </div>
+
+
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+
+
+                  <div class="form-group">
+                    <label for="oldpeak">oldpeak</label>
+                    <input type="text" class="form-control" name="oldpeak" required="required" />
+                  </div>
+                  <div class="form-group">
+                    <label for="sex_0">sex_0</label>
+                    <input type="text" class="form-control" name="sex_0" required="required" />
+                  </div>
+
+
+                 <br>
+                 <br>
+                 <br>
+                 <br>
+                 <br>
+
+                  <div class="form-group">
+                    <label for="sex_1">sex_1</label>
+                    <input type="text" class="form-control" name="sex_1" required="required" />
+                  </div>
+                  <div class="form-group">
+                    <label for="cp_0">cp_0</label>
+                    <input type="text" class="form-control" name="cp_0" required="required" />
+                  </div>
+
+
+                  <br>
+                   <br>
+                    <br>
+                     <br>
+                      <br>
+
+                  <div class="form-group">
+                    <label for="Mitoses">Mitoses</label>
+                    <input type="text" class="form-control" name="cp_1" required="required" />
+                  </div>
+
+
+
+                  <div class="form-group">
+                    <label for="cp_2">cp_2</label>
+                    <input type="text" class="form-control" name="cp_2" required="required" />
+                  </div>
+
+
+                  <br>
+                   <br>
+                    <br>
+                     <br>
+                      <br>
+
+                  <div class="form-group">
+                    <label for="cp_3">cp_3</label>
+                    <input type="text" class="form-control" name="cp_3" required="required" />
+                  </div>
+
+
+                  <div class="form-group">
+                    <label for="fbs_0">fbs_0</label>
+                    <input type="text" class="form-control" name="fbs_0" required="required" />
+                  </div>
+
+
+
+
+
+                  <div class="form-group">
+                    <label for="restecg_0">restecg_0</label>
+                    <input type="text" class="form-control" name="restecg_0" required="required" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="restecg_1">restecg_1</label>
+                    <input type="text" class="form-control" name="restecg_1" required="required" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="restecg_2">restecg_2</label>
+                    <input type="text" class="form-control" name="restecg_2" required="required" />
+                  </div>
+
+                   <br>
+                    <br>
+                     <br>
+                      <br>
+                       <br>
+
+
+                  <div class="form-group">
+                    <label for="exang_0">exang_0</label>
+                    <input type="text" class="form-control" name="exang_0" required="required" />
+                  </div>
+                  <div class="form-group">
+                    <label for="exang_1">exang_1</label>
+                    <input type="text" class="form-control" name="exang_1" required="required" />
+                  </div>
+                  <div class="form-group">
+                    <label for="slope_0">slope_0</label>
+                    <input type="text" class="form-control" name="slope_0" required="required" />
+                  </div>
+
+                   <br>
+                    <br>
+                     <br>
+                      <br>
+                       <br>
+
+
+                  <div class="form-group">
+                    <label for="slope_1">slope_1</label>
+                    <input type="text" class="form-control" name="slope_1" required="required" />
+                  </div>
+                  <div class="form-group">
+                    <label for="slope_2">slope_2</label>
+                    <input type="text" class="form-control" name="slope_2" required="required" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="ca_0">ca_0</label>
+                    <input type="text" class="form-control" name="ca_0" required="required" />
+                  </div>
+
+
+                   <br>
+                    <br>
+                     <br>
+                      <br>
+                       <br>
+
+                  <div class="form-group">
+                    <label for="ca_1">ca_1</label>
+                    <input type="text" class="form-control" name="ca_1" required="required" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="ca_2">ca_2</label>
+                    <input type="text" class="form-control" name="ca_2" required="required" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="thal_1">thal_1</label>
+                    <input type="text" class="form-control" name="thal_1" required="required" />
+                  </div>
+
+                   <br>
+                    <br>
+                     <br>
+                      <br>
+                       <br>
+                  <div class="form-group">
+                    <label for="thal_2">thal_2</label>
+                    <input type="text" class="form-control" name="thal_2" required="required" />
+                  </div>
+                  <div class="form-group">
+                    <label for="thal_3">thal_3</label>
+                    <input type="text" class="form-control" name="thal_3" required="required" />
+                  </div>
+
+
+ <br>
+  <br>
+   <br>
+    <br>
+     <br>
+      <br>
+       <br>
+
+
+                  <button type="submit" class="btn btn-primary btn-lg">Predict heart disease</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        <br />
+        <center>
+          <h1 style="background:#ffffff">{{prediction_text}}</h1>
+        </center>
+        <br />
+
+        <br> <br> <br> <br> <br> <br> <br> <br>
+<center>
+<div>
+ <img src="static/g.png" class="w3-border w3-padding" alt="heart disease" style="width:100%">
+</div>
+</center>
+</body>
+
+</html>
